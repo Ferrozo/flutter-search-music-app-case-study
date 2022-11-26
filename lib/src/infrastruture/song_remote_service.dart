@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:search_music_app/src/infrastruture/song_dto.dart';
 
-class SongReRequestException implements Exception {}
+class SongRequestException implements Exception {}
 
 class SongRemoteService {
   final http.Client _httpClient;
@@ -27,7 +27,7 @@ class SongRemoteService {
       var songResponse = await _httpClient.get(songRequest);
 
       if (songResponse.statusCode != 200) {
-        throw SongReRequestException();
+        throw SongRequestException();
       }
 
       var songToJson = json.decode(songResponse.body);

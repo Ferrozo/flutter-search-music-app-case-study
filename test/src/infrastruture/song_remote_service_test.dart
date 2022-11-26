@@ -1,40 +1,122 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'dart:convert';
+import 'package:mocktail/mocktail.dart';
 import 'package:http/http.dart' as http;
 import 'package:search_music_app/src/infrastruture/song_dto.dart';
+import 'package:search_music_app/src/infrastruture/song_remote_service.dart';
 
-class SongReRequestException implements Exception {}
+import '../../fixtures/fixture_reader.dart';
 
-class SongRemoteService {
-  final http.Client _httpClient;
-  static const _baseUrl = 'itunes.apple.com';
+class MockResponse extends Mock implements http.Response {}
 
-  SongRemoteService({http.Client? httpClient})
-      : _httpClient = httpClient ?? http.Client();
+class MockHttpClient extends Mock implements http.Client {}
 
-  Future<List<SongDTO>> fecthSongs(String searchTitle) async {
-    try {
-      var songRequest = Uri.https(
-        _baseUrl,
+main() {
+  late http.Client mockHttpClient;
+  late SongRemoteService songRemoteService;
+
+  setUp(
+    () {
+      mockHttpClient = MockHttpClient();
+      songRemoteService = SongRemoteService(httpClient: mockHttpClient);
+    },
+  );
+
+  group(
+    '[Test SongRemoteService]',
+    () {
+      const query = 'yellow';
+      var uri = Uri.https(
+        'itunes.apple.com',
         'search',
         <String, String>{
-          'term': searchTitle,
+          'term': query,
           'media': 'music',
           'attribute': 'artistTerm',
           'limit': '5'
         },
       );
 
-      var songResponse = await _httpClient.get(songRequest);
+      test(
+        'construtor does not require an httpClient',
+        () {
+          expect(SongRemoteService(), null);
+        },
+      );
 
-      if (songResponse.statusCode != 200) {
-        throw SongReRequestException();
-      }
+      test(
+        'make a correct http requst',
+        () async {
+          var response = MockResponse();
+          var body = fixture('empty_result.json');
+          when(() => response.statusCode).thenReturn(200);
+          when(() => response.body).thenReturn(body);
+          when(() => mockHttpClient.get(uri)).thenAnswer((_) async => response);
 
-      var songToJson = json.decode(songResponse.body);
-      final List<dynamic> results = songToJson['results'];
-      return results.map((song) => SongDTO.fromJson(song)).toList();
-    } catch (e) {
-      rethrow;
-    }
-  }
+          await songRemoteService.fecthSongs(query);
+
+          verify(
+            () => mockHttpClient.get(uri),
+          ).called(1);
+        },
+      );
+
+      test(
+        'throws as SongRequestException on non-200 response',
+        () async {
+          var response = MockResponse();
+          when(() => response.statusCode).thenReturn(400);
+          when(() => mockHttpClient.get(uri)).thenAnswer(
+            (_) async => response,
+          );
+
+          expect(
+            () async => await songRemoteService.fecthSongs(query),
+            throwsA(isA<SongRequestException>()),
+          );
+        },
+      );
+
+      test(
+        'returns an empty List<SongDTO> if the result is empty',
+        () async {
+          var response = MockResponse();
+          var body = fixture('empty_result.json');
+
+          when(() => response.statusCode).thenReturn(200);
+          when(() => response.body).thenReturn(body);
+          when(() => mockHttpClient.get(uri)).thenAnswer(
+            (_) async => response,
+          );
+
+          final actual = await songRemoteService.fecthSongs(query);
+          expect(
+            actual,
+            isA<List<SongDTO>>()
+                .having((songs) => songs.isEmpty, 'empty songs', true),
+          );
+        },
+      );
+
+      test(
+        'returns a List<SongDTO> if the results in response has value',
+        () async {
+          var response = MockResponse();
+          var body = fixture('result_with_valid_body.json');
+          var json = jsonDecode(body) as Map<String, dynamic>;
+          final List<dynamic> results = json['results'];
+          var songs = results.map((json) => SongDTO.fromJson(json)).toList();
+
+          when(() => response.statusCode).thenReturn(200);
+          when(() => response.body).thenReturn(body);
+          when(() => mockHttpClient.get(uri)).thenAnswer(
+            (_) async => response,
+          );
+
+          final actual = await songRemoteService.fecthSongs(query);
+          expect(actual, songs);
+        },
+      );
+    },
+  );
 }

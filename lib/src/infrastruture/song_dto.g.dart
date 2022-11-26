@@ -6,6 +6,7 @@ part of 'song_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+// ignore: non_constant_identifier_names
 _$_SongDTO _$$_SongDTOFromJson(Map<String, dynamic> json) => _$_SongDTO(
       artistName: json['artistName'] as String?,
       collectionName: json['collectionName'] as String?,
@@ -14,6 +15,7 @@ _$_SongDTO _$$_SongDTOFromJson(Map<String, dynamic> json) => _$_SongDTO(
       previewUrl: json['previewUrl'] as String,
     );
 
+// ignore: non_constant_identifier_names
 Map<String, dynamic> _$$_SongDTOToJson(_$_SongDTO instance) =>
     <String, dynamic>{
       'artistName': instance.artistName,
