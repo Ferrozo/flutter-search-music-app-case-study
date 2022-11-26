@@ -24,5 +24,5 @@ class SongDTO with _$SongDTO {
       );
 
   factory SongDTO.fromJson(Map<String, dynamic> json) =>
-      $_SongDTOFromJson(json);
+      _$SongDTOFromJson(json);
 }
