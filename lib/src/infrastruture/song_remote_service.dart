@@ -11,7 +11,7 @@ class SongRemoteService {
   SongRemoteService({http.Client? httpClient})
       : _httpClient = httpClient ?? http.Client();
 
-  Future<List<SongDTO>> fecthSongs(String searchTitle) async {
+  Future<List<SongDTO>> fetchSongs(String searchTitle) async {
     try {
       var songRequest = Uri.https(
         _baseUrl,

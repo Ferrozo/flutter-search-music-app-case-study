@@ -9,7 +9,7 @@ class SongRemoteRepository {
 
   Future<Either<SongFailure, List<Song>>> fetchSongs(serchTerm) async {
     try {
-      var songDTOs = await _songRemoteService.fecthSongs(serchTerm);
+      var songDTOs = await _songRemoteService.fetchSongs(serchTerm);
       var songs = songDTOs.map((song) => song.toDomain()).toList();
 
       return right(songs);

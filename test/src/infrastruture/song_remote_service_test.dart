@@ -53,7 +53,7 @@ main() {
           when(() => response.body).thenReturn(body);
           when(() => mockHttpClient.get(uri)).thenAnswer((_) async => response);
 
-          await songRemoteService.fecthSongs(query);
+          await songRemoteService.fetchSongs(query);
 
           verify(
             () => mockHttpClient.get(uri),
@@ -71,7 +71,7 @@ main() {
           );
 
           expect(
-            () async => await songRemoteService.fecthSongs(query),
+            () async => await songRemoteService.fetchSongs(query),
             throwsA(isA<SongRequestException>()),
           );
         },
@@ -89,7 +89,7 @@ main() {
             (_) async => response,
           );
 
-          final actual = await songRemoteService.fecthSongs(query);
+          final actual = await songRemoteService.fetchSongs(query);
           expect(
             actual,
             isA<List<SongDTO>>()
@@ -113,7 +113,7 @@ main() {
             (_) async => response,
           );
 
-          final actual = await songRemoteService.fecthSongs(query);
+          final actual = await songRemoteService.fetchSongs(query);
           expect(actual, songs);
         },
       );
