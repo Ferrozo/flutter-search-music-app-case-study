@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:search_music_app/src/application/audio_player/audio_player_cubit.dart';
 import 'package:search_music_app/src/application/song/song_cubit.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +37,7 @@ void main() {
                 create: (_) => mockSongCubit,
               ),
               BlocProvider(
-                create: () => mockAudioPlayerCubit,
+                create: (_) => mockAudioPlayerCubit,
               ),
             ],
             child: const MaterialApp(

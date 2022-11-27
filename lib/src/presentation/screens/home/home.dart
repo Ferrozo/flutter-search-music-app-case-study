@@ -10,6 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.transparent,
         title: const SearchContainer(),
       ),
@@ -18,8 +19,8 @@ class HomePage extends StatelessWidget {
           Expanded(
             child: BlocBuilder<SongCubit, SongState>(
               builder: (context, state) => state.status.when(
-                initial: () => EmptyContainer(
-                  Key: Key('__initial__'),
+                initial: () => const EmptyContainer(
+                  key: Key('__initial__'),
                   text: 'Start a search',
                 ),
                 loading: () => const Center(
@@ -27,14 +28,14 @@ class HomePage extends StatelessWidget {
                     color: Colors.green,
                   ),
                 ),
-                success: () => state.songs.isEmpty
-                    ? SongListView(song: state.songs)
+                success: () => state.songs.isNotEmpty
+                    ? SongListView(songs: state.songs)
                     : const EmptyContainer(
-                        Key: Key('__noResult__'),
+                        key: Key('__noResult__'),
                         text: 'No result for this search',
                       ),
                 failure: () => const EmptyContainer(
-                  Key: Key('__searchFailed__'),
+                  key: Key('__searchFailed__'),
                   text: 'Oops! Something went wrong.',
                 ),
               ),
