@@ -28,21 +28,43 @@ class _SearchContainerState extends State<SearchContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       alignment: Alignment.center,
-      height: 100,
+      height: 40,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Colors.grey[850],
         borderRadius: BorderRadius.circular(50),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Expanded(
+            child: IconButton(
+              onPressed: () async {
+                if (_textEditingController.text.isNotEmpty) {
+                  final song = _textEditingController.text;
+                  await context.read<SongCubit>().fetchSongs(song);
+                  // ignore: use_build_context_synchronously
+                  FocusScope.of(context).requestFocus(FocusNode());
+                }
+              },
+              icon: const Icon(
+                CupertinoIcons.search,
+                color: Colors.grey,
+              ),
+            ),
+          ),
           Expanded(
             flex: 9,
             child: TextField(
+              style: const TextStyle(color: Colors.grey),
               decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(left: 5),
                 border: const OutlineInputBorder(borderSide: BorderSide.none),
+                hintStyle: const TextStyle(color: Colors.grey),
+                fillColor: Colors.grey,
                 hintText: 'Search by artist name',
                 suffixIcon: IconButton(
                   onPressed: () {

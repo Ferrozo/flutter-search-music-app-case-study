@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui';
 
 import 'package:search_music_app/src/application/audio_player/audio_player_cubit.dart';
+import 'package:search_music_app/src/presentation/widgets/export_widgets.dart';
 
 class AudioPlayerContainer extends StatelessWidget {
   const AudioPlayerContainer({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class AudioPlayerContainer extends StatelessWidget {
                               fit: BoxFit.cover,
                             )
                           : Image.asset(
-                              'assets/no_artwork_available.png',
+                              'src/assets/assets/no_album_art.jpg',
                               fit: BoxFit.cover,
                             ),
                     ),
@@ -42,6 +44,11 @@ class AudioPlayerContainer extends StatelessWidget {
                         'Unknown Track',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                   ),
                   trailing: SizedBox(
                     width: 160,
@@ -50,7 +57,7 @@ class AudioPlayerContainer extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.skip_previous),
-                          color: Colors.black,
+                          color: Colors.white70,
                           onPressed: () async =>
                               context.read<AudioPlayerCubit>().hasPrevious
                                   ? await context
@@ -63,12 +70,12 @@ class AudioPlayerContainer extends StatelessWidget {
                           height: 42,
                           child: Center(
                             child: state.status.maybeWhen(
-                              buffering: () => const LoadingWidget(),
-                              loading: () => const LoadingWidget(),
+                              buffering: () => const Loading(),
+                              loading: () => const Loading(),
                               ready: () => IconButton(
                                 icon: const Icon(Icons.play_arrow),
-                                splashColor: Colors.transparent,
-                                color: Colors.black,
+                                splashColor: Colors.white70,
+                                color: Colors.white70,
                                 onPressed: () async => await context
                                     .read<AudioPlayerCubit>()
                                     .play(),
@@ -76,23 +83,23 @@ class AudioPlayerContainer extends StatelessWidget {
                               completed: () => IconButton(
                                 icon: const Icon(Icons.replay),
                                 splashColor: Colors.transparent,
-                                color: Colors.black,
+                                color: Colors.white70,
                                 onPressed: () async => await context
                                     .read<AudioPlayerCubit>()
                                     .seekToStart(),
                               ),
                               playing: () => IconButton(
-                                icon: const Icon(Icons.pause),
+                                icon: const Icon(CupertinoIcons.pause),
                                 splashColor: Colors.transparent,
-                                color: Colors.black,
+                                color: Colors.green,
                                 onPressed: () async => await context
                                     .read<AudioPlayerCubit>()
                                     .pause(),
                               ),
                               orElse: () => const IconButton(
-                                icon: Icon(Icons.play_arrow),
+                                icon: Icon(CupertinoIcons.play_arrow_solid),
                                 splashColor: Colors.transparent,
-                                color: Colors.black,
+                                color: Colors.green,
                                 onPressed: null,
                               ),
                             ),
@@ -100,7 +107,7 @@ class AudioPlayerContainer extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(Icons.skip_next),
-                          color: Colors.black,
+                          color: Colors.white70,
                           onPressed: () async =>
                               context.read<AudioPlayerCubit>().hasNext
                                   ? await context
@@ -118,24 +125,6 @@ class AudioPlayerContainer extends StatelessWidget {
         }
         return const SizedBox();
       },
-    );
-  }
-}
-
-class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 18,
-      height: 18,
-      child: Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 3,
-          color: Colors.black54,
-        ),
-      ),
     );
   }
 }
