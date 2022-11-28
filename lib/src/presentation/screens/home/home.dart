@@ -24,6 +24,7 @@ class HomePage extends StatelessWidget {
                 builder: (context, state) => state.status.when(
                   initial: () => const EmptyContainer(
                     key: Key('__initial__'),
+                    img: 'src/assets/music_search.png',
                     text: 'Start a search',
                   ),
                   loading: () => const Center(
@@ -35,10 +36,12 @@ class HomePage extends StatelessWidget {
                       ? SongListView(songs: state.songs)
                       : const EmptyContainer(
                           key: Key('__noResult__'),
-                          text: 'No result for this search',
+                          img: 'src/assets/no_result.png',
+                          text: 'No result for this search!',
                         ),
                   failure: () => const EmptyContainer(
                     key: Key('__searchFailed__'),
+                    img: 'src/assets/music_search.png',
                     text: 'Oops! Something went wrong.',
                   ),
                 ),
