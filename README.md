@@ -1,16 +1,14 @@
 # search_music_app
 
-A new Flutter project.
+## -----------------------------------------------
 
-## Getting Started
+In this repository I'm showing some studies about test unit, so the app  make request of musics from apple itunes api :)
+## -----------------------------------------------
 
-This project is a starting point for a Flutter application.
+app output:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<figure class="video_container">
+ <video controls="true" allowfullscreen="false" width="280" >
+ <source src="./demo_file.mp4" type="video/mp4">
+ </video>
+</figure>
