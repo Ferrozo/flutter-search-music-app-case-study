@@ -59,6 +59,7 @@ class _SongListViewState extends State<SongListView>
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
+                childCount: widget.songs.length,
                 (context, i) {
                   return AnimatedPadding(
                     padding: EdgeInsets.only(

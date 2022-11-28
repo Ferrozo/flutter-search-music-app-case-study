@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
           return <Widget>[
             SliverAppBar(
               backgroundColor: Colors.black,
-              expandedHeight: 100.0,
+              expandedHeight: 80.0,
               snap: false,
               floating: true,
               pinned: true,
