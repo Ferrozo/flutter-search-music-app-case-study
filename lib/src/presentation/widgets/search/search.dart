@@ -73,7 +73,8 @@ class _SearchContainerState extends State<SearchContainer> {
                   onPressed: () {
                     _textEditingController.clear();
                   },
-                  icon: const Icon(CupertinoIcons.delete_left),
+                  icon: Icon(CupertinoIcons.delete_left,
+                      color: Colors.grey.withOpacity(0.7)),
                 ),
               ),
               key: const Key('__searchField__'),

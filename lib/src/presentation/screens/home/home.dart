@@ -10,16 +10,29 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const SearchContainer(),
-      ),
-      body: Stack(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 60.0),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.black,
+              expandedHeight: 100.0,
+              snap: false,
+              floating: true,
+              pinned: true,
+              title: const SearchContainer(),
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                background: Container(
+                  padding: const EdgeInsets.all(20),
+                  color: Colors.grey.withOpacity(0.1),
+                ),
+              ),
+            ),
+          ];
+        },
+        body: Stack(
+          children: [
+            Expanded(
               child: BlocBuilder<SongCubit, SongState>(
                 builder: (context, state) => state.status.when(
                   initial: () => const EmptyContainer(
@@ -47,12 +60,12 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: AudioPlayerContainer(),
-          ),
-        ],
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: AudioPlayerContainer(),
+            ),
+          ],
+        ),
       ),
     );
   }
