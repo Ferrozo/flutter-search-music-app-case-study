@@ -63,7 +63,7 @@ class _SongListViewState extends State<SongListView>
                 (context, i) {
                   return AnimatedPadding(
                     padding: EdgeInsets.only(
-                      top: ((rate + 5).abs() > 20) ? 10 : (rate + 5).abs(),
+                      top: ((rate + 2).abs() > 10) ? 5 : (rate + 2).abs(),
                     ),
                     duration: const Duration(microseconds: 3000),
                     curve: Curves.easeOut,
