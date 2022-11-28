@@ -4,7 +4,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:http/http.dart' as http;
 import 'package:search_music_app/src/infrastruture/song_dto.dart';
 import 'package:search_music_app/src/infrastruture/song_remote_service.dart';
-
 import '../../fixtures/fixture_reader.dart';
 
 class MockResponse extends Mock implements http.Response {}
@@ -25,7 +24,7 @@ main() {
   group(
     '[Test SongRemoteService]',
     () {
-      const query = 'yellow';
+      const query = 'something';
       var uri = Uri.https(
         'itunes.apple.com',
         'search',
@@ -33,14 +32,13 @@ main() {
           'term': query,
           'media': 'music',
           'attribute': 'artistTerm',
-          'limit': '5'
         },
       );
 
       test(
         'construtor does not require an httpClient',
         () {
-          expect(SongRemoteService(), null);
+          expect(SongRemoteService(), isNotNull);
         },
       );
 
@@ -103,15 +101,13 @@ main() {
         () async {
           var response = MockResponse();
           var body = fixture('result_with_valid_body.json');
-          var json = jsonDecode(body) as Map<String, dynamic>;
-          final List<dynamic> results = json['results'];
+          var toJson = jsonDecode(body) as Map<String, dynamic>;
+          final List<dynamic> results = toJson['results'];
           var songs = results.map((json) => SongDTO.fromJson(json)).toList();
 
           when(() => response.statusCode).thenReturn(200);
           when(() => response.body).thenReturn(body);
-          when(() => mockHttpClient.get(uri)).thenAnswer(
-            (_) async => response,
-          );
+          when(() => mockHttpClient.get(uri)).thenAnswer((_) async => response);
 
           final actual = await songRemoteService.fetchSongs(query);
           expect(actual, songs);

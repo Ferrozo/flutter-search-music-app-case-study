@@ -20,7 +20,6 @@ class SongRemoteService {
           'term': searchTitle,
           'media': 'music',
           'attribute': 'artistTerm',
-          'limit': '5'
         },
       );
 

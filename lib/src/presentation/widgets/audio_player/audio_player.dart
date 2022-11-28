@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui';
-
 import 'package:search_music_app/src/application/audio_player/audio_player_cubit.dart';
 import 'package:search_music_app/src/presentation/widgets/export_widgets.dart';
 
@@ -74,7 +73,7 @@ class AudioPlayerContainer extends StatelessWidget {
                               loading: () => const Loading(),
                               ready: () => IconButton(
                                 icon: const Icon(Icons.play_arrow),
-                                splashColor: Colors.white70,
+                                splashColor: Colors.transparent,
                                 color: Colors.white70,
                                 onPressed: () async => await context
                                     .read<AudioPlayerCubit>()

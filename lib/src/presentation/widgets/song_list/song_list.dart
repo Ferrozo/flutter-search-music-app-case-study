@@ -64,104 +64,108 @@ class _SongListViewState extends State<SongListView>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(3),
                 ),
-                child: Row(children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15.0, 20.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5.0),
-                      child: SizedBox(
-                        width: 60,
-                        height: 100,
-                        child: widget.songs[i].artworkUrl100 != null
-                            ? Image.network(
-                                widget.songs[i].artworkUrl100!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) => Image.asset(
+                child: Row(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.fromLTRB(10.0, 10.0, 15.0, 20.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5.0),
+                        child: SizedBox(
+                          width: 60,
+                          height: 100,
+                          child: widget.songs[i].artworkUrl100 != null
+                              ? Image.network(
+                                  widget.songs[i].artworkUrl100!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => Image.asset(
+                                    'src/assets/no_album_art.jpg',
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : Image.asset(
                                   'src/assets/no_album_art.jpg',
                                   fit: BoxFit.cover,
                                 ),
-                              )
-                            : Image.asset(
-                                'src/assets/no_album_art.jpg',
-                                fit: BoxFit.cover,
-                              ),
+                        ),
                       ),
                     ),
-                  ),
 
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.songs[i].trackName ?? 'Unknown Track',
-                            maxLines: 1,
-                            style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.songs[i].trackName ?? 'Unknown Track',
+                              maxLines: 1,
+                              style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textScaleFactor: 1.1,
                             ),
-                            textScaleFactor: 1.1,
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            widget.songs[i].artistName ?? 'Unknown Artist',
-                            maxLines: 1,
-                            style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: Colors.white70,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                              widget.songs[i].collectionName ?? 'Unknown Album',
+                            const SizedBox(height: 5),
+                            Text(
+                              widget.songs[i].artistName ?? 'Unknown Artist',
                               maxLines: 1,
                               style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 color: Colors.white70,
-                                fontSize: 12,
-                              )),
-                        ],
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                                widget.songs[i].collectionName ??
+                                    'Unknown Album',
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Colors.white70,
+                                  fontSize: 12,
+                                )),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  // Widget displaying the selected/playing song indicator.
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(width: 20.0),
-                      BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
-                        builder: (context, state) {
-                          if (state.currentIndex == i &&
-                              state.isPlaying &&
-                              widget.songs[i].previewUrl ==
-                                  state.playList[i].previewUrl) {
+                    // Widget displaying the selected/playing song indicator.
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SizedBox(width: 20.0),
+                        BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
+                          builder: (context, state) {
+                            if (state.currentIndex == i &&
+                                state.isPlaying &&
+                                widget.songs[i].previewUrl ==
+                                    state.playList[i].previewUrl) {
+                              return const Padding(
+                                padding: EdgeInsets.only(right: 20.0),
+                                child: Icon(
+                                  Icons.bar_chart,
+                                  color: Colors.green,
+                                ),
+                              );
+                            }
                             return const Padding(
                               padding: EdgeInsets.only(right: 20.0),
                               child: Icon(
-                                Icons.bar_chart,
-                                color: Colors.green,
+                                Icons.play_arrow,
+                                color: Colors.white70,
                               ),
                             );
-                          }
-                          return const Padding(
-                            padding: EdgeInsets.only(right: 20.0),
-                            child: Icon(
-                              Icons.play_arrow,
-                              color: Colors.white70,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  )
-                ]),
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           );

@@ -59,7 +59,10 @@ class _SearchContainerState extends State<SearchContainer> {
           Expanded(
             flex: 9,
             child: TextField(
-              style: const TextStyle(color: Colors.grey),
+              style: const TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(left: 5),
                 border: const OutlineInputBorder(borderSide: BorderSide.none),
